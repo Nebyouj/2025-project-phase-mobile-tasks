@@ -1,0 +1,117 @@
+import 'package:flutter/material.dart';
+import 'package:product_app/models/product_data.dart';
+import 'package:product_app/screens/details_page.dart';
+import 'package:product_app/widgets/product_card.dart';
+
+class HomePage extends StatefulWidget {
+  const HomePage({super.key});
+
+  @override
+  State<HomePage> createState() => _HomePageState();
+}
+
+class _HomePageState extends State<HomePage> {
+  
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      backgroundColor: const Color(0xffF5F5F5),
+      body: SafeArea(
+        child: Padding(
+          padding: const EdgeInsets.all(16),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Row(
+                children: [
+                  CircleAvatar(
+                    radius: 25,
+                    backgroundColor: Colors.grey.shade300,
+                    child: const Icon(
+                      Icons.person,
+                      size: 30,
+                      color: Colors.black54,
+                    ),
+                  ),
+                  const SizedBox(width: 12),
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: const [
+                      Text(
+                        "July 25, 2025",
+                        style: TextStyle(
+                          fontSize: 14,
+                          color: Color.fromARGB(137, 98, 93, 93),
+                          fontFamily: "Poppins",
+                        ),
+                      ),
+                      Text(
+                        "Hello, Nebyou",
+                        style: TextStyle(
+                          fontSize: 22,
+                          color: Colors.black54,
+                          fontWeight: FontWeight.bold,
+                          fontFamily: "Poppins",
+                        ),
+                      ),
+                    ],
+                  ),
+                  const Spacer(),
+                  const Icon(Icons.notifications_none),
+                ],
+              ),
+              const SizedBox(height: 40),
+              Row(children: [
+                const Text(
+                  "Available products",
+                  style: TextStyle(
+                    fontSize: 24,
+                    
+                    fontWeight: FontWeight.bold,
+                    fontFamily: "Poppins",
+                  ),
+                ),
+                const Spacer(),
+                const Icon(Icons.search, color: Colors.black54),
+              ],
+            ),
+              const SizedBox(height: 16),
+              Expanded(
+                child: ListView.builder(
+                  itemCount: products.length,
+                  itemBuilder: (context, index) {
+                    return Padding(
+                      padding: const EdgeInsets.only(bottom: 10),
+                      child: GestureDetector(
+                        onTap: (){
+                          Navigator.push(
+                            context, 
+                            MaterialPageRoute(
+                              builder: (context) => DetailsPage(product: products[index]),
+                            ),
+                          );
+                        },
+                        child: ProductCard(product: products[index]),
+                      ),
+                    );
+                  },
+                )
+              )
+            ],
+          ),
+        ),
+      ),
+      
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {
+          debugPrint("Floating Action Button Pressed");
+        },
+        child: const Icon(Icons.add),
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(50)),
+        backgroundColor: const Color.fromARGB(255, 32, 86, 233),
+        foregroundColor: Colors.white,
+      ),
+    
+    );
+  }
+}
