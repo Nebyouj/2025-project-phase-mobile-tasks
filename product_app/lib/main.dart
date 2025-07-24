@@ -15,27 +15,50 @@ class ShoeStoreApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Shoe Store',
-      theme: ThemeData(primarySwatch: Colors.blue),
-      debugShowCheckedModeBanner: false,
-      initialRoute: '/',
-      routes: {
-        '/': (context) => const RootPage(),
-        '/home': (context) => const HomePage(),
-        '/details': (context) {
-          final product = ModalRoute.of(context)?.settings.arguments;
-          if (product is Product) {
-            return DetailsPage(product: product);
-          }
-          return const HomePage(); // Fallback if no product is passed
-        },
-        '/search': (context) => const SearchPage(),
-        '/addUpdate': (context) {
-          final product = ModalRoute.of(context)?.settings.arguments;
-          return AddUpdatePage(product: product as Product?);
-        },
+  title: 'Shoe Store',
+  theme: ThemeData(primarySwatch: Colors.blue),
+  debugShowCheckedModeBanner: false,
+  initialRoute: '/',
+  onGenerateRoute: (settings) {
+    Widget page;
+
+    switch (settings.name) {
+      case '/':
+        page = const RootPage();
+        break;
+      case '/home':
+        page = const HomePage();
+        break;
+      case '/details':
+        final product = settings.arguments;
+        if (product is Product) {
+          page = DetailsPage(product: product);
+        } else {
+          page = const HomePage(); // fallback
+        }
+        break;
+      case '/search':
+        page = const SearchPage();
+        break;
+      case '/addUpdate':
+        final product = settings.arguments;
+        page = AddUpdatePage(product: product as Product?);
+        break;
+      default:
+        page = const HomePage();
+    }
+
+    return PageRouteBuilder(
+      settings: settings,
+      pageBuilder: (_, __, ___) => page,
+      transitionsBuilder: (_, animation, __, child) {
+        return FadeTransition(opacity: animation, child: child);
       },
+      transitionDuration: const Duration(milliseconds: 300),
     );
+  },
+);
+
   }
 }
 
