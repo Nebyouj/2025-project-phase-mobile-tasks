@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import '../models/product.dart';
-import '../models/product_data.dart'; // Make sure this exports the `productList`
+import '../models/product_data.dart';
+import '../screens/details_page.dart';
 import '../widgets/product_card.dart';
 
 class SearchPage extends StatefulWidget {
@@ -25,13 +26,19 @@ class _SearchPageState extends State<SearchPage> {
   void _filterProducts() {
     setState(() {
       filteredProducts = products.where((product) {
-        final matchesQuery = product.name.toLowerCase().contains(searchQuery.toLowerCase()) ||
+        final matchesQuery =
+            product.name.toLowerCase().contains(searchQuery.toLowerCase()) ||
             product.category.toLowerCase().contains(searchQuery.toLowerCase());
 
-        final matchesCategory = categoryFilter.isEmpty ||
-            product.category.toLowerCase().contains(categoryFilter.toLowerCase());
+        final matchesCategory =
+            categoryFilter.isEmpty ||
+            product.category.toLowerCase().contains(
+              categoryFilter.toLowerCase(),
+            );
 
-        final matchesPrice = product.price >= priceRange.start && product.price <= priceRange.end;
+        final matchesPrice =
+            product.price >= priceRange.start &&
+            product.price <= priceRange.end;
 
         return matchesQuery && matchesCategory && matchesPrice;
       }).toList();
@@ -44,68 +51,69 @@ class _SearchPageState extends State<SearchPage> {
   }
 
   void _showFilterSheet() {
-  String selectedCategory = categoryFilter;
-  RangeValues selectedPrice = priceRange;
+    String selectedCategory = categoryFilter;
+    RangeValues selectedPrice = priceRange;
 
-  showModalBottomSheet(
-    context: context,
-    shape: const RoundedRectangleBorder(
-      borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
-    ),
-    builder: (context) {
-      return StatefulBuilder(
-        builder: (context, setModalState) {
-          return Padding(
-            padding: const EdgeInsets.all(16.0),
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                const Text("Category"),
-                const SizedBox(height: 8),
-                TextField(
-                  controller: TextEditingController(text: selectedCategory),
-                  onChanged: (value) {
-                    setModalState(() => selectedCategory = value);
-                  },
-                  decoration: const InputDecoration(border: OutlineInputBorder()),
-                ),
-                const SizedBox(height: 20),
-                const Text("Price"),
-                RangeSlider(
-                  values: selectedPrice,
-                  min: 0,
-                  max: 1000,
-                  divisions: 20,
-                  labels: RangeLabels(
-                    selectedPrice.start.toStringAsFixed(0),
-                    selectedPrice.end.toStringAsFixed(0),
+    showModalBottomSheet(
+      context: context,
+      shape: const RoundedRectangleBorder(
+        borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
+      ),
+      builder: (context) {
+        return StatefulBuilder(
+          builder: (context, setModalState) {
+            return Padding(
+              padding: const EdgeInsets.all(16.0),
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  const Text("Category"),
+                  const SizedBox(height: 8),
+                  TextField(
+                    controller: TextEditingController(text: selectedCategory),
+                    onChanged: (value) {
+                      setModalState(() => selectedCategory = value);
+                    },
+                    decoration: const InputDecoration(
+                      border: OutlineInputBorder(),
+                    ),
                   ),
-                  onChanged: (RangeValues values) {
-                    setModalState(() => selectedPrice = values);
-                  },
-                ),
-                const SizedBox(height: 20),
-                ElevatedButton(
-                  onPressed: () {
-                    // ✅ Update real state and apply filter
-                    setState(() {
-                      categoryFilter = selectedCategory;
-                      priceRange = selectedPrice;
-                    });
-                    _filterProducts();
-                    Navigator.pop(context);
-                  },
-                  child: const Text("APPLY"),
-                ),
-              ],
-            ),
-          );
-        },
-      );
-    },
-  );
-}
-
+                  const SizedBox(height: 20),
+                  const Text("Price"),
+                  RangeSlider(
+                    values: selectedPrice,
+                    min: 0,
+                    max: 1000,
+                    divisions: 20,
+                    labels: RangeLabels(
+                      selectedPrice.start.toStringAsFixed(0),
+                      selectedPrice.end.toStringAsFixed(0),
+                    ),
+                    onChanged: (RangeValues values) {
+                      setModalState(() => selectedPrice = values);
+                    },
+                  ),
+                  const SizedBox(height: 20),
+                  ElevatedButton(
+                    onPressed: () {
+                      // ✅ Update real state and apply filter
+                      setState(() {
+                        categoryFilter = selectedCategory;
+                        priceRange = selectedPrice;
+                      });
+                      _filterProducts();
+                      Navigator.pop(context);
+                    },
+                    child: const Text("APPLY"),
+                  ),
+                ],
+              ),
+            );
+          },
+        );
+      },
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -179,7 +187,18 @@ class _SearchPageState extends State<SearchPage> {
                       itemBuilder: (context, index) {
                         return Padding(
                           padding: const EdgeInsets.only(bottom: 12.0),
-                          child: ProductCard(product: filteredProducts[index]),
+                          child: GestureDetector(
+                            onTap: () {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) =>
+                                      DetailsPage(product: products[index]),
+                                ),
+                              );
+                            },
+                            child: ProductCard(product: products[index]),
+                          ),
                         );
                       },
                     ),

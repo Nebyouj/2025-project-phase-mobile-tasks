@@ -112,7 +112,11 @@ class _DetailsPageState extends State<DetailsPage> {
                             foregroundColor: Colors.white,
                           ),
                           onPressed: () {
-                            // Add to cart logic here
+                            Navigator.pushNamed(
+                              context,
+                              '/addUpdate',
+                              arguments: widget.product,
+                            );
                           },
                           child: const Text("Update"),
                         ),

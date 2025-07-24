@@ -72,7 +72,35 @@ class _HomePageState extends State<HomePage> {
                   ),
                 ),
                 const Spacer(),
-                const Icon(Icons.search, color: Colors.black54),
+                SizedBox(
+                  height: 48,
+                  width: 48,
+                  child: ElevatedButton(
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: Colors.white,
+                      foregroundColor: Colors.blue, // Icon color when pressed
+                      shadowColor: Colors.blueAccent,
+                      elevation: 2,
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(8.0),
+                        side: const BorderSide(color: Colors.black),
+                      ),
+                    ).copyWith(
+                      backgroundColor: WidgetStateProperty.resolveWith<Color>(
+                        (states) {
+                          if (states.contains(WidgetState.pressed)) {
+                            return Colors.blue; // Background turns blue when pressed
+                          }
+                          return Colors.white;
+                        },
+                      ),
+                    ),
+                    onPressed: () {
+                      Navigator.pushNamed(context, '/search');
+                    }, child: const Icon(Icons.search, color: Colors.black, size: 24),
+                  ),
+                )
+                
               ],
             ),
               const SizedBox(height: 16),
@@ -104,7 +132,7 @@ class _HomePageState extends State<HomePage> {
       
       floatingActionButton: FloatingActionButton(
         onPressed: () {
-          debugPrint("Floating Action Button Pressed");
+          Navigator.pushNamed(context, '/addUpdate');
         },
         child: const Icon(Icons.add),
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(50)),
