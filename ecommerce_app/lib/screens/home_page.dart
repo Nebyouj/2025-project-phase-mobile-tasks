@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:product_app/models/product_data.dart';
-import 'package:product_app/screens/details_page.dart';
-import 'package:product_app/widgets/product_card.dart';
+import '../models/product_data.dart';
+import 'details_page.dart';
+import '../widgets/product_card.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -34,24 +34,24 @@ class _HomePageState extends State<HomePage> {
                     ),
                   ),
                   const SizedBox(width: 12),
-                  Column(
+                  const Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
-                    children: const [
+                    children: [
                       Text(
-                        "July 25, 2025",
+                        'July 25, 2025',
                         style: TextStyle(
                           fontSize: 14,
                           color: Color.fromARGB(137, 98, 93, 93),
-                          fontFamily: "Poppins",
+                          fontFamily: 'Poppins',
                         ),
                       ),
                       Text(
-                        "Hello, Nebyou",
+                        'Hello, Nebyou',
                         style: TextStyle(
                           fontSize: 22,
                           color: Colors.black54,
                           fontWeight: FontWeight.bold,
-                          fontFamily: "Poppins",
+                          fontFamily: 'Poppins',
                         ),
                       ),
                     ],
@@ -63,12 +63,12 @@ class _HomePageState extends State<HomePage> {
               const SizedBox(height: 40),
               Row(children: [
                 const Text(
-                  "Available products",
+                  'Available products',
                   style: TextStyle(
                     fontSize: 24,
                     
                     fontWeight: FontWeight.bold,
-                    fontFamily: "Poppins",
+                    fontFamily: 'Poppins',
                   ),
                 ),
                 const Spacer(),

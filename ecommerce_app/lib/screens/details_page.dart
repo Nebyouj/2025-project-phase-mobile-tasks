@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:product_app/models/product.dart';
+import '../domain/entities/product.dart';
 
 class DetailsPage extends StatefulWidget {
   final Product product;
@@ -19,7 +19,7 @@ class _DetailsPageState extends State<DetailsPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text("${widget.product.name} Details")),
+      appBar: AppBar(title: Text('${widget.product.name} Details')),
       body: SingleChildScrollView(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -45,7 +45,7 @@ class _DetailsPageState extends State<DetailsPage> {
                           style: TextStyle(fontSize: 14, color: Colors.grey.shade600),
                         ),
                       ),
-                      Icon(Icons.star, color: Colors.amber, size: 14),
+                      const Icon(Icons.star, color: Colors.amber, size: 14),
                       Text(
                         '${widget.product.rating}',
                         style: TextStyle(fontSize: 14, color: Colors.grey.shade600),
@@ -65,7 +65,7 @@ class _DetailsPageState extends State<DetailsPage> {
                     ],
                   ),
                   const SizedBox(height: 20),
-                  const Text("Size", style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold)),
+                  const Text('Size', style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold)),
                   const SizedBox(height: 10),
                   Wrap(
                     spacing: 10,
@@ -86,7 +86,7 @@ class _DetailsPageState extends State<DetailsPage> {
                     }).toList(),
                   ),
                   const SizedBox(height: 20),
-                  const Text("Description", style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
+                  const Text('Description', style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
                   const SizedBox(height: 10),
                   Text(widget.product.description),
                   const SizedBox(height: 50),
@@ -103,7 +103,7 @@ class _DetailsPageState extends State<DetailsPage> {
                               isSwitched = !isSwitched;
                             });
                           },
-                          child: const Text("Delete"),
+                          child: const Text('Delete'),
                         ),
                         const SizedBox(width: 50),
                         ElevatedButton(
@@ -118,7 +118,7 @@ class _DetailsPageState extends State<DetailsPage> {
                               arguments: widget.product,
                             );
                           },
-                          child: const Text("Update"),
+                          child: const Text('Update'),
                         ),
                     ],
                   ),
