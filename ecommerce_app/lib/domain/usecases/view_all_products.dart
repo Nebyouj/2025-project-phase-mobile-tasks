@@ -9,6 +9,6 @@ class ViewAllProducts extends Usecase<List<Product>, NoParams>{
 
   @override
   Future<List<Product>> call(NoParams params) {
-    return repository.fetchProducts();
+    return repository.getAllProducts();
   }
 }

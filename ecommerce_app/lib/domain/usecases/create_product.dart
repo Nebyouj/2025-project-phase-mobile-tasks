@@ -9,6 +9,6 @@ class CreateProductUseCase extends Usecase<void, Product> {
 
   @override
   Future<void> call(Product product) async {
-    await repository.addProduct(product);
+    await repository.insertProduct(product);
   }
 }

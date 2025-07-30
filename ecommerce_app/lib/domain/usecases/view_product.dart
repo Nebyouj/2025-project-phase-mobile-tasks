@@ -9,6 +9,6 @@ class ViewProductUseCase extends Usecase<Product?, String> {
 
   @override
   Future<Product?> call(String id) async {
-    return await repository.fetchProductById(id);
+    return await repository.getProduct(id);
   }
 }
