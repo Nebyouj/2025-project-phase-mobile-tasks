@@ -5,7 +5,7 @@ class Product {
   final String imageUrl;
   final double price;
 
-  Product({
+  const Product({
     required this.id,
     required this.name,
     required this.description,

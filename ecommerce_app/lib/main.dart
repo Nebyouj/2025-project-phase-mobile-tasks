@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import 'domain/entities/product.dart';
-import 'screens/add_update_page.dart';
-import 'screens/details_page.dart';
-import 'screens/home_page.dart';
-import 'screens/search_page.dart';
+import 'features/product/domain/entities/product.dart';
+import 'features/product/presentation/screens/add_update_page.dart';
+import 'features/product/presentation/screens/details_page.dart';
+import 'features/product/presentation/screens/home_page.dart';
+import 'features/product/presentation/screens/search_page.dart';
 
 void main() {
   runApp(const ShoeStoreApp());

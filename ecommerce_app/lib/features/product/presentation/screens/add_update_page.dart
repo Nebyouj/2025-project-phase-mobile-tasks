@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import '../domain/entities/product.dart';
-import '../models/product_data.dart';
+import '../../domain/entities/product.dart';
+import '../../data/datasources/product_data.dart';
 
 class AddUpdatePage extends StatefulWidget {
   final Product? product;
