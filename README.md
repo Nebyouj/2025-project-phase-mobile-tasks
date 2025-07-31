@@ -37,9 +37,23 @@ This is a simple ecommerce mobile application built using **Flutter**. The app a
 
 ```
 lib/
-├── main.dart                # App entry point with routes
+├── main.dart                # App entry point with
+├── domain/
+│   ├── entities/
+│   │   └── product.dart
+│   ├── repositories/
+│   │   └── product_repository.dart
+│   ├── usecases/
+│   │   ├── insert_product.dart
+│   │   ├── update_product.dart
+│   │   ├── delete_product.dart
+│   │   └── get_product.dart
+│
+├── data/
+│   ├── repositories/
+│   │   └── product_repository_impl.dart
+routes
 ├── models/
-│   └── product.dart         # Product model class
 │   ├── product_data.dart 
 ├── screens/
 │   ├── home_page.dart       # Home screen UI
