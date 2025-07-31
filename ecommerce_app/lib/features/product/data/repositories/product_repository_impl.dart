@@ -1,46 +1,53 @@
-import 'package:uuid/uuid.dart';
+import '../../../../core/network/network_info.dart';
 import '../../domain/entities/product.dart';
 import '../../domain/repositories/product_repository.dart';
+import '../datasources/product_local_data_source.dart';
+import '../datasources/product_remote_data_source.dart';
 
 class ProductRepositoryImpl implements ProductRepository {
-  final List<Product> _products = [];
+  final ProductRemoteDataSource remoteDataSource;
+  final ProductLocalDataSource localDataSource;
+  final NetworkInfo networkInfo;
+
+  ProductRepositoryImpl({
+    required this.remoteDataSource,
+    required this.localDataSource,
+    required this.networkInfo,
+  });
 
   @override
-  Future<void> insertProduct(Product product) async {
-    final newproduct = product.copyWith(id: const Uuid().v4());
-    _products.add(newproduct);
-  }
-
-  @override
-  Future<void> updateProduct(Product product) async {
-    final index = _products.indexWhere((p) => p.id == product.id);
-    if (index != -1) {
-      _products[index] = product;
+  Future<List<Product>> getAllProducts() async {
+    if (await networkInfo.isConnected) {
+      final products = await remoteDataSource.getAllProducts();
+      await localDataSource.cacheProducts(products);
+      return products;
     } else {
-      throw Exception('Product not found');
-    }
-  }
-
-  @override
-  Future<void> deleteProduct(String id) async {
-    final index = _products.indexWhere((p) => p.id == id);
-    if (index != -1) {
-      _products.removeAt(index);
-    } else {
-      throw Exception('Product not found');
+      return await localDataSource.getCachedProducts();
     }
   }
 
   @override
   Future<Product> getProduct(String id) async {
-    return _products.firstWhere(
-      (product) => product.id == id,
-      orElse: () => throw Exception('Product not found'),
-    );
+    if (await networkInfo.isConnected) {
+      return await remoteDataSource.getProduct(id);
+    } else {
+      final cachedProducts = await localDataSource.getCachedProducts();
+      return cachedProducts.firstWhere((product) => product.id == id);
+    }
   }
 
   @override
-  Future<List<Product>> getAllProducts() async {
-    return _products;
+  Future<void> insertProduct(Product product) async {
+    await remoteDataSource.insertProduct(product);
+  }
+
+  @override
+  Future<void> updateProduct(Product product) async {
+    await remoteDataSource.updateProduct(product);
+  }
+
+  @override
+  Future<void> deleteProduct(String id) async {
+    await remoteDataSource.deleteProduct(id);
   }
 }

@@ -31,3 +31,69 @@ This project follows the **Clean Architecture** pattern:
 2. **Domain Layer** → Contains business logic via UseCases and Entities.
 3. **Data Layer** → Fetches data from local or remote sources and maps it to entities.
 
+
+## 🗂️ Project Structure
+
+```
+lib/
+├── core/
+│   ├── error/
+│   │   ├── exceptions.dart
+│   │   └── failures.dart
+│   ├── network/
+│   │   └── network_info.dart          # NetworkInfo contract
+│   └── usecase/
+│       └── usecase.dart               # Base UseCase class
+│
+├── features/
+│   └── product/
+│       ├── domain/
+│       │   ├── entities/
+│       │   │   └── product.dart        # Product entity
+│       │   ├── repositories/
+│       │   │   └── product_repository.dart  # Contract for repository
+│       │   └── usecases/
+│       │       ├── create_product.dart
+│       │       ├── update_product.dart
+│       │       ├── delete_product.dart
+│       │       ├── view_product.dart
+│       │       └── view_all_products.dart
+│       │
+│       ├── data/
+│       │   ├── models/
+│       │   │   └── product_model.dart  # Maps to entity + JSON conversion
+│       │   ├── datasources/
+│       │   │   ├── product_remote_data_source.dart # Contract
+│       │   │   ├── product_local_data_source.dart  # Contract
+│       │   └── repositories/
+│       │       └── product_repository_impl.dart        # Implementation
+│       │
+│       ├── presentation/
+│             └── screens/
+│             |     ├── home_page.dart
+│             |     ├── details_page.dart
+│             |     ├── add_update_page.dart
+│             |     └── search_page.dart
+│             └── widgets/
+│                   └── product_card.dart
+│
+└── main.dart
+
+## 🚀 How to Run
+
+Make sure you have **Flutter** installed on your system.
+
+### 1. Clone the Repository
+
+```bash
+git clone https://github.com/your-username/shoe-store-flutter.git
+cd shoe-store-flutter
+```
+
+### 2. Run the App
+
+```bash
+flutter pub get
+flutter run
+```
+
