@@ -31,6 +31,7 @@ dependencies:
   flutter:
     sdk: flutter
 
+  internet_connection_checker: ^1.0.0
     # Service locator
   get_it: ^8.0.3
   # Bloc for state management
