@@ -1,6 +1,6 @@
 import '../entities/product.dart';
 import '../repositories/product_repository.dart';
-import 'usecase.dart';
+import '../../../../core/usecases/usecase.dart';
 
 class ViewProductUseCase extends Usecase<Product?, String> {
   final ProductRepository repository;

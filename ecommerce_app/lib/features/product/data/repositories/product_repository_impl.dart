@@ -1,8 +1,13 @@
+
+import 'package:dartz/dartz.dart';
+
+import '../../../../core/error/failures.dart';
 import '../../../../core/network/network_info.dart';
 import '../../domain/entities/product.dart';
 import '../../domain/repositories/product_repository.dart';
 import '../datasources/product_local_data_source.dart';
 import '../datasources/product_remote_data_source.dart';
+import '../models/product_model.dart';
 
 class ProductRepositoryImpl implements ProductRepository {
   final ProductRemoteDataSource remoteDataSource;
@@ -16,38 +21,62 @@ class ProductRepositoryImpl implements ProductRepository {
   });
 
   @override
-  Future<List<Product>> getAllProducts() async {
+  Future<Either<Failures, List<Product>>> getAllProducts() async {
     if (await networkInfo.isConnected) {
-      final products = await remoteDataSource.getAllProducts();
-      await localDataSource.cacheProducts(products);
-      return products;
+      try {
+        final remoteProducts = await remoteDataSource.getAllProducts();
+        localDataSource.cacheProducts(remoteProducts);
+        return Right(remoteProducts.map((model) => model.toEntity()).toList());
+      } catch (e) {
+        return Left(ServerFailure());
+      }
     } else {
-      return await localDataSource.getCachedProducts();
+      try {
+        final localProducts = await localDataSource.getCachedProducts();
+        return Right(localProducts.map((model) => model.toEntity()).toList());
+      } catch (e) {
+        return Left(CacheFailure());
+      }
     }
   }
 
   @override
-  Future<Product> getProduct(String id) async {
-    if (await networkInfo.isConnected) {
-      return await remoteDataSource.getProduct(id);
-    } else {
-      final cachedProducts = await localDataSource.getCachedProducts();
-      return cachedProducts.firstWhere((product) => product.id == id);
+  Future<Either<Failures, Product>> getProduct(String id) async {
+    try {
+      final product = await remoteDataSource.getProduct(id);
+      return Right(product.toEntity());
+    } catch (e) {
+      return Left(ServerFailure());
     }
   }
 
   @override
-  Future<void> insertProduct(Product product) async {
-    await remoteDataSource.insertProduct(product);
+  Future<Either<Failures, void>> insertProduct(Product product) async {
+    try {
+      await remoteDataSource.insertProduct(ProductModel.fromEntity(product));
+      return const Right(null);
+    } catch (e) {
+      return Left(ServerFailure());
+    }
   }
 
   @override
-  Future<void> updateProduct(Product product) async {
-    await remoteDataSource.updateProduct(product);
+  Future<Either<Failures, void>> updateProduct(Product product) async {
+    try {
+      await remoteDataSource.updateProduct(ProductModel.fromEntity(product));
+      return const Right(null);
+    } catch (e) {
+      return Left(ServerFailure());
+    }
   }
 
   @override
-  Future<void> deleteProduct(String id) async {
-    await remoteDataSource.deleteProduct(id);
+  Future<Either<Failures, void>> deleteProduct(String id) async {
+    try {
+      await remoteDataSource.deleteProduct(id);
+      return const Right(null);
+    } catch (e) {
+      return Left(ServerFailure());
+    }
   }
 }

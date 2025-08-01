@@ -34,4 +34,24 @@ class ProductModel extends Product {
       'imageUrl': imageUrl,
     };
   }
+
+  Product toEntity() {
+    return Product(
+      id: id,
+      name: name,
+      description: description,
+      price: price,
+      imageUrl: imageUrl,
+    );
+  }
+
+  factory ProductModel.fromEntity(Product entity) {
+    return ProductModel(
+      id: entity.id,
+      name: entity.name,
+      description: entity.description,
+      price: entity.price,
+      imageUrl: entity.imageUrl,
+    );
+  }
 }
