@@ -21,6 +21,8 @@ void main() {
   final tProductModel = const ProductModel(
     id: '1',
     name: 'Test Product',
+    catogory: 'Test catogory',
+    rating: 5.0,
     description: 'Test Desc',
     imageUrl: 'https://example.com/img.png',
     price: 99.99,

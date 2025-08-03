@@ -1,7 +1,7 @@
 import 'package:dartz/dartz.dart';
 
 import 'package:ecommerce_app/core/error/failures.dart';
-import 'package:ecommerce_app/core/platform/network_info.dart';
+import 'package:ecommerce_app/core/network/network_info.dart';
 import 'package:ecommerce_app/features/product/data/datasources/product_local_data_source.dart';
 import 'package:ecommerce_app/features/product/data/datasources/product_remote_data_source.dart';
 import 'package:ecommerce_app/features/product/data/models/product_model.dart';
@@ -35,6 +35,8 @@ void main() {
     final tProductModel = const ProductModel(
       id: '1',
       name: 'Test Product',
+      catogory: 'Test catogory',
+      rating: 5.0,
       description: 'Test Description',
       imageUrl: 'https://example.com/image.png',
       price: 99.99,

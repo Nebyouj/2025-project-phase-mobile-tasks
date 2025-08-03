@@ -28,11 +28,11 @@ class _SearchPageState extends State<SearchPage> {
       filteredProducts = products.where((product) {
         final matchesQuery =
             product.name.toLowerCase().contains(searchQuery.toLowerCase()) ||
-            product.category.toLowerCase().contains(searchQuery.toLowerCase());
+            product.catogory.toLowerCase().contains(searchQuery.toLowerCase());
 
         final matchesCategory =
             categoryFilter.isEmpty ||
-            product.category.toLowerCase().contains(
+            product.catogory.toLowerCase().contains(
               categoryFilter.toLowerCase(),
             );
 

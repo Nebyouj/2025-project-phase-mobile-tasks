@@ -41,7 +41,7 @@ class _DetailsPageState extends State<DetailsPage> {
                     children: [
                       Expanded(
                         child: Text(
-                          widget.product.category,
+                          widget.product.catogory,
                           style: TextStyle(fontSize: 14, color: Colors.grey.shade600),
                         ),
                       ),

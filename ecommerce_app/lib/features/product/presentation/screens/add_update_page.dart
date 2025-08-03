@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
-import '../../domain/entities/product.dart';
+
 import '../../data/datasources/product_data.dart';
+import '../../domain/entities/product.dart';
 
 class AddUpdatePage extends StatefulWidget {
   final Product? product;
@@ -26,7 +27,7 @@ class _AddUpdatePageState extends State<AddUpdatePage> {
     super.initState();
     if (isUpdate) {
       _nameController.text = widget.product!.name;
-      _categoryController.text = widget.product!.category;
+      _categoryController.text = widget.product!.catogory;
       _priceController.text = widget.product!.price.toString();
       _ratingController.text = widget.product!.rating.toString();
       _descriptionController.text = widget.product!.description;
@@ -64,11 +65,11 @@ class _AddUpdatePageState extends State<AddUpdatePage> {
 
     final newProduct = Product(
       name: name,
-      category: category,
+      catogory: category,
       price: price,
       rating: rating,
       description: description,
-      imageUrl: imageURL,
+      imageUrl: imageURL, id: '1',
     );
 
     if (isUpdate) {

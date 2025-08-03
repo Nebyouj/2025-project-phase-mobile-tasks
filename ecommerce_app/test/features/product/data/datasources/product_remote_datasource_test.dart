@@ -6,7 +6,6 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:http/http.dart' as http;
 import 'package:mockito/mockito.dart';
 
-
 class MockHttpClient extends Mock implements http.Client {}
 
 void main() {
@@ -20,13 +19,22 @@ void main() {
 
   group('getAllProducts', () {
     final tProductList = [
-      ProductModel(id: '1', name: 'Test Product', description: 'Desc', imageUrl: 'url', price: 10.0)
+      const ProductModel(
+        id: '1',
+        name: 'Test Product',
+        catogory: 'Test catogory',
+        rating: 5.0,
+        description: 'Desc',
+        imageUrl: 'url',
+        price: 10.0,
+      ),
     ];
 
     test('should return product list when the response code is 200', () async {
       // arrange
       when(mockHttpClient.get(any)).thenAnswer(
-        (_) async => http.Response(json.encode([tProductList[0].toJson()]), 200),
+        (_) async =>
+            http.Response(json.encode([tProductList[0].toJson()]), 200),
       );
       // act
       final result = await dataSource.getAllProducts();
@@ -34,13 +42,18 @@ void main() {
       expect(result, equals(tProductList));
     });
 
-    test('should throw ServerException when the response code is not 200', () async {
-      // arrange
-      when(mockHttpClient.get(any)).thenAnswer((_) async => http.Response('Error', 404));
-      // act
-      final call = dataSource.getAllProducts;
-      // assert
-      expect(() => call(), throwsA(isA<SeverExecption>()));
-    });
+    test(
+      'should throw ServerException when the response code is not 200',
+      () async {
+        // arrange
+        when(
+          mockHttpClient.get(any),
+        ).thenAnswer((_) async => http.Response('Error', 404));
+        // act
+        final call = dataSource.getAllProducts;
+        // assert
+        expect(() => call(), throwsA(isA<SeverExecption>()));
+      },
+    );
   });
 }
