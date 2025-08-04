@@ -1,7 +1,7 @@
 import 'dart:convert';
 import 'package:http/http.dart' as http;
-import 'package:ecommerce_app/features/product/data/models/product_model.dart';
-import 'package:ecommerce_app/core/error/exceptions.dart';
+import '../../../../core/error/exceptions.dart';
+import '../models/product_model.dart';
 
 import 'product_remote_data_source.dart';
 
