@@ -5,8 +5,10 @@ import 'features/product/presentation/screens/add_update_page.dart';
 import 'features/product/presentation/screens/details_page.dart';
 import 'features/product/presentation/screens/home_page.dart';
 import 'features/product/presentation/screens/search_page.dart';
-
-void main() {
+import 'injection_container.dart' as di;
+Future<void> main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await di.init();
   runApp(const ShoeStoreApp());
 }
 
