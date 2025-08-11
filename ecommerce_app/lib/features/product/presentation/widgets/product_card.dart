@@ -43,11 +43,11 @@ class ProductCard extends StatelessWidget {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    Text(product.catogory, style: TextStyle(color: Colors.grey[600])),
+                    Text(product.name, style: TextStyle(color: Colors.grey[600])),
                     Row(
                       children: [
                         const Icon(Icons.star, color: Colors.amber, size: 16),
-                        Text('(${product.rating})', style: const TextStyle(fontSize: 14)),
+                        Text('(${product.price})', style: const TextStyle(fontSize: 14)),
                       ],
                     ),
                   ],

@@ -5,8 +5,6 @@ void main() {
   const productModel = ProductModel(
     id: '1',
     name: 'Shoe',
-    catogory: 'catogory',
-    rating: 5.0,
     description: 'Nice shoe',
     price: 100.0,
     imageUrl: 'http://image.com/shoe.jpg',

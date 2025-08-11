@@ -4,16 +4,19 @@ import 'package:ecommerce_app/features/product/data/datasources/product_remote_d
 import 'package:ecommerce_app/features/product/data/models/product_model.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:http/http.dart' as http;
+import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
+import 'product_remote_datasource_test.mocks.dart';
 
-class MockHttpClient extends Mock implements http.Client {}
+// class MockHttpClient extends Mock implements http.Client {}
+@GenerateMocks([http.Client])
 
 void main() {
   late ProductRemoteDatasourceImpl dataSource;
-  late MockHttpClient mockHttpClient;
+  late MockClient mockHttpClient;
 
   setUp(() {
-    mockHttpClient = MockHttpClient();
+    mockHttpClient = MockClient();
     dataSource = ProductRemoteDatasourceImpl(client: mockHttpClient);
   });
 
@@ -22,8 +25,6 @@ void main() {
       const ProductModel(
         id: '1',
         name: 'Test Product',
-        catogory: 'Test catogory',
-        rating: 5.0,
         description: 'Desc',
         imageUrl: 'url',
         price: 10.0,
@@ -52,7 +53,7 @@ void main() {
         // act
         final call = dataSource.getAllProducts;
         // assert
-        expect(() => call(), throwsA(isA<SeverExecption>()));
+        expect(() => call(), throwsA(isA<ServerException>()));
       },
     );
   });

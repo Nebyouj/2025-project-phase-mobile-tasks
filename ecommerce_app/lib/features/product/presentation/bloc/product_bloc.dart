@@ -1,6 +1,5 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../../../core/usecases/usecase.dart';
-import '../../domain/entities/product.dart';
 import '../../domain/usecases/create_product.dart';
 import '../../domain/usecases/delete_product.dart';
 import '../../domain/usecases/update_product.dart';
@@ -43,7 +42,7 @@ class ProductBloc extends Bloc<ProductEvent, ProductState> {
   Future<void> _onGetSingleProduct(
       GetSingleProductEvent event, Emitter<ProductState> emit) async {
     emit(LoadingState());
-    final result = await viewProduct(Params(id: event.id));
+    final result = await viewProduct(event.id);
     result.fold(
       (failure) => emit(const ErrorState('Failed to load product')),
       (product) => emit(LoadedSingleProductState(product)),
@@ -53,7 +52,7 @@ class ProductBloc extends Bloc<ProductEvent, ProductState> {
   Future<void> _onCreateProduct(
       CreateProductEvent event, Emitter<ProductState> emit) async {
     emit(LoadingState());
-    final result = await createProduct(Params(product: event.product));
+    final result = await createProduct(event.product);
     result.fold(
       (failure) => emit(const ErrorState('Failed to create product')),
       (_) => add(LoadAllProductsEvent()), // Reload products
@@ -63,7 +62,7 @@ class ProductBloc extends Bloc<ProductEvent, ProductState> {
   Future<void> _onUpdateProduct(
       UpdateProductEvent event, Emitter<ProductState> emit) async {
     emit(LoadingState());
-    final result = await updateProduct(Params(product: event.product));
+    final result = await updateProduct(event.product);
     result.fold(
       (failure) => emit(const ErrorState('Failed to update product')),
       (_) => add(LoadAllProductsEvent()),
@@ -73,7 +72,7 @@ class ProductBloc extends Bloc<ProductEvent, ProductState> {
   Future<void> _onDeleteProduct(
       DeleteProductEvent event, Emitter<ProductState> emit) async {
     emit(LoadingState());
-    final result = await deleteProduct(Params(id: event.id));
+    final result = await deleteProduct(event.id);
     result.fold(
       (failure) => emit(const ErrorState('Failed to delete product')),
       (_) => add(LoadAllProductsEvent()),
@@ -81,4 +80,7 @@ class ProductBloc extends Bloc<ProductEvent, ProductState> {
   }
 
 }
+
+
+
 

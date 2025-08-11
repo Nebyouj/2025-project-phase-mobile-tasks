@@ -15,3 +15,4 @@ class ViewProductUseCase extends Usecase<Either<Failures, Product>, String> {
     return await repository.getProduct(id);
   }
 }
+

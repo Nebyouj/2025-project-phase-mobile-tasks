@@ -17,19 +17,18 @@ class ProductLocalDataSourceImpl implements ProductLocalDataSource {
   Future<List<ProductModel>> getCachedProducts() {
     final jsonString = sharedPreferences.getString(cachedProducts);
     if (jsonString != null) {
-      final List<dynamic> decodedList = json.decode(jsonString);
+      final decodedList = json.decode(jsonString) as List<dynamic>;
       return Future.value(decodedList
-          .map<ProductModel>((json) => ProductModel.fromJson(json))
+          .map((json) => ProductModel.fromJson(json))
           .toList());
     } else {
-      throw CacheExecption();
+      throw CacheException();
     }
   }
 
   @override
-  Future<void> cacheProducts(List<ProductModel> products) {
-    final List<Map<String, dynamic>> jsonList =
-        products.map((product) => product.toJson()).toList();
-    return sharedPreferences.setString(cachedProducts, json.encode(jsonList));
+  Future<void> cacheProducts(List<ProductModel> products) async {
+    final jsonList = products.map((product) => product.toJson()).toList();
+    await sharedPreferences.setString(cachedProducts, json.encode(jsonList));
   }
 }

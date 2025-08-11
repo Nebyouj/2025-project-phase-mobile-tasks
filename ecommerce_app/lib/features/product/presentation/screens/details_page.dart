@@ -42,13 +42,13 @@ class _DetailsPageState extends State<DetailsPage> {
                     children: [
                       Expanded(
                         child: Text(
-                          widget.product.catogory,
+                          widget.product.name,
                           style: TextStyle(fontSize: 14, color: Colors.grey.shade600),
                         ),
                       ),
                       const Icon(Icons.star, color: Colors.amber, size: 14),
                       Text(
-                        '${widget.product.rating}',
+                        '${44}',
                         style: TextStyle(fontSize: 14, color: Colors.grey.shade600),
                       ),
                     ],

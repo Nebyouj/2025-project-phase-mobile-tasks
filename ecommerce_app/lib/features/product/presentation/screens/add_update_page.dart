@@ -27,9 +27,9 @@ class _AddUpdatePageState extends State<AddUpdatePage> {
     super.initState();
     if (isUpdate) {
       _nameController.text = widget.product!.name;
-      _categoryController.text = widget.product!.catogory;
+      // _categoryController.text = widget.product!.catogory;
       _priceController.text = widget.product!.price.toString();
-      _ratingController.text = widget.product!.rating.toString();
+      // _ratingController.text = widget.product!.rating.toString();
       _descriptionController.text = widget.product!.description;
     }
   }
@@ -65,9 +65,9 @@ class _AddUpdatePageState extends State<AddUpdatePage> {
 
     final newProduct = Product(
       name: name,
-      catogory: category,
+      // catogory: category,
       price: price,
-      rating: rating,
+      // rating: rating,
       description: description,
       imageUrl: imageURL, id: '1',
     );

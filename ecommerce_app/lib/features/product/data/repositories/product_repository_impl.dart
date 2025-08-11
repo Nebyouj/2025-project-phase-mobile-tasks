@@ -1,6 +1,7 @@
 
 import 'package:dartz/dartz.dart';
 
+import '../../../../core/error/exceptions.dart';
 import '../../../../core/error/failures.dart';
 import '../../../../core/network/network_info.dart';
 import '../../domain/entities/product.dart';
@@ -25,16 +26,20 @@ class ProductRepositoryImpl implements ProductRepository {
     if (await networkInfo.isConnected) {
       try {
         final remoteProducts = await remoteDataSource.getAllProducts();
-        localDataSource.cacheProducts(remoteProducts);
+        await localDataSource.cacheProducts(remoteProducts);
         return Right(remoteProducts.map((model) => model.toEntity()).toList());
-      } catch (e) {
+      } on ServerException {
+        return Left(ServerFailure());
+      } catch (_) {
         return Left(ServerFailure());
       }
     } else {
       try {
         final localProducts = await localDataSource.getCachedProducts();
         return Right(localProducts.map((model) => model.toEntity()).toList());
-      } catch (e) {
+      } on CacheException {
+        return Left(CacheFailure());
+      } catch (_) {
         return Left(CacheFailure());
       }
     }
@@ -45,7 +50,7 @@ class ProductRepositoryImpl implements ProductRepository {
     try {
       final product = await remoteDataSource.getProduct(id);
       return Right(product.toEntity());
-    } catch (e) {
+    } on ServerException {
       return Left(ServerFailure());
     }
   }
@@ -55,7 +60,7 @@ class ProductRepositoryImpl implements ProductRepository {
     try {
       await remoteDataSource.insertProduct(ProductModel.fromEntity(product));
       return const Right(null);
-    } catch (e) {
+    } on ServerException {
       return Left(ServerFailure());
     }
   }
@@ -65,7 +70,7 @@ class ProductRepositoryImpl implements ProductRepository {
     try {
       await remoteDataSource.updateProduct(ProductModel.fromEntity(product));
       return const Right(null);
-    } catch (e) {
+    } on ServerException {
       return Left(ServerFailure());
     }
   }
@@ -75,7 +80,7 @@ class ProductRepositoryImpl implements ProductRepository {
     try {
       await remoteDataSource.deleteProduct(id);
       return const Right(null);
-    } catch (e) {
+    } on ServerException {
       return Left(ServerFailure());
     }
   }
